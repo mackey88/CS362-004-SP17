@@ -723,6 +723,12 @@ int playGreat_hall(int handPos, struct gameState *state)
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
 }
+
+int playGardens()
+{
+
+  return 0;
+}
 //----------------------------------------------------------------------------------------------------------------------
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
@@ -830,9 +836,10 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //Reset Hand
       			
       return 0;
-			
+	//*************************************************************************		
     case gardens:
-      return -1;
+    playGardens();
+      
 			
     case mine:
       j = state->hand[currentPlayer][choice1];  //store card we will trash
