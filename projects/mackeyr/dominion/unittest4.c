@@ -6,7 +6,7 @@
 #include "rngs.h" 
 #include <stdlib.h>
 
-#define TESTFUNCTION "fullDeckCount"
+#define TESTFUNCTION "handCard"
 
 int main() {
 
@@ -17,14 +17,14 @@ int main() {
     int testPlayer = 1;    
     int results;
     int tests = 1000;
-    int matchCount;
-	int matchCard;
+    int handCount;
+    int matchCardPosition;
+	int handCardValue;
 	int currentCard;
-	int i, j, m, n;
-	int deckCount;
-	int handCount;
-	int dicardCount;
+	int i, m;
+	
 	int sucessfulTests = 0;
+
 
     //Set up 2 game states
 	struct gameState G;
@@ -43,67 +43,58 @@ int main() {
 
 	initializeGame(numPlayers, k, seed, &G);
 
+	G.whoseTurn = testPlayer;
 
-	
-
-	
-
+printf("Test");
 	//Start test loop
 	for(i = 0; i < tests; i++) {
 
 
-		//CSet count to 0
-		matchCount = 0;
-
-		//Set card to check for
-		matchCard = (rand() % 27);
 
 		//Set counts for testing
-		deckCount = (rand() % 500);
 		handCount = (rand() % 500);
-		dicardCount = (rand() % 500);
+		
 
 		//Set counts in game state
-		G.deckCount[testPlayer] = deckCount;
 		G.handCount[testPlayer] = handCount;
-		G.discardCount[testPlayer] = dicardCount;
+
+		
+		//Set card to check for
+		matchCardPosition = (rand() % 500);
+		while(matchCardPosition > handCount) {
+			
+			matchCardPosition = (rand() % 500);
+		}
 
 		//Fill users cards
-		for(j = 0; j < deckCount; j++) {
+		for(m = 0; m < handCount + 1; m++) {
+			//Pick random card
 			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
-			G.deck[testPlayer][j] = currentCard;
-		}
-
-		for(m = 0; m < handCount; m++) {
-			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
+			
+			//Set Card in hand
 			G.hand[testPlayer][m] = currentCard;
+
+			if(matchCardPosition == m) {handCardValue = currentCard;}
+
 		}
 
-		for(n = 0; n < dicardCount; n++) {
-			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
-			G.discard[testPlayer][n] = currentCard;
-		}
 
 		//Check function
-		results = fullDeckCount(testPlayer, matchCard, &G);
+		results = handCard(matchCardPosition, &G);
 
-		if(results == matchCount) {
-			//printf("Test %d : %d matches %d \n", i, results, matchCount);
+		if(results == handCardValue) {
+			//printf("Test %d : %d matches %d \n", i, results, handCardValue);
 			sucessfulTests++;
 		} else {
-			//printf("Test %d : %d does not match %d \n", i, results, matchCount);
+			printf("Test %d : %d does not match %d handCount: %d matchCardPosition: %d \n", i, results, handCardValue, handCount, matchCardPosition);
 		}
 
 		//printf("Conducted %d : %d does not match %d \n", i, results, matchCount);
 
-
 	}
 
-	printf("Conducted %d Tests. %d returned the number of cards that were expected.", i, sucessfulTests);
-
+	
+	printf("Conducted %d Tests. %d returned the correct score.", i, sucessfulTests);
 	
 	 printf("\n >>>>> Testing complete %s <<<<<\n\n", TESTFUNCTION);
 	

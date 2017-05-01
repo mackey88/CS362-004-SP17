@@ -6,7 +6,7 @@
 #include "rngs.h" 
 #include <stdlib.h>
 
-#define TESTFUNCTION "fullDeckCount"
+#define TESTFUNCTION "scoreFor"
 
 int main() {
 
@@ -25,6 +25,7 @@ int main() {
 	int handCount;
 	int dicardCount;
 	int sucessfulTests = 0;
+	int score;
 
     //Set up 2 game states
 	struct gameState G;
@@ -55,6 +56,8 @@ int main() {
 		//CSet count to 0
 		matchCount = 0;
 
+		score = 0;
+		
 		//Set card to check for
 		matchCard = (rand() % 27);
 
@@ -71,39 +74,59 @@ int main() {
 		//Fill users cards
 		for(j = 0; j < deckCount; j++) {
 			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
+			
+			if (currentCard == curse) { score = score - 1; };
+      		if (currentCard == estate) { score = score + 1; };
+      		if (currentCard == duchy) { score = score + 3; };
+      		if (currentCard == province) { score = score + 6; };
+      		if (currentCard == great_hall) { score = score + 1; };
+      		if (currentCard == gardens) { score = score + ( (deckCount + handCount + dicardCount) / 10 ); };
+
 			G.deck[testPlayer][j] = currentCard;
 		}
 
 		for(m = 0; m < handCount; m++) {
 			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
+			
+			if (currentCard == curse) { score = score - 1; };
+      		if (currentCard == estate) { score = score + 1; };
+      		if (currentCard == duchy) { score = score + 3; };
+      		if (currentCard == province) { score = score + 6; };
+      		if (currentCard == great_hall) { score = score + 1; };
+      		if (currentCard == gardens) { score = score + ( (deckCount + handCount + dicardCount) / 10 ); };
+
 			G.hand[testPlayer][m] = currentCard;
 		}
 
 		for(n = 0; n < dicardCount; n++) {
 			currentCard = (rand() % 27);
-			if(currentCard == matchCard) matchCount++;
+			
+			if (currentCard == curse) { score = score - 1; };
+      		if (currentCard == estate) { score = score + 1; };
+      		if (currentCard == duchy) { score = score + 3; };
+      		if (currentCard == province) { score = score + 6; };
+      		if (currentCard == great_hall) { score = score + 1; };
+      		if (currentCard == gardens) { score = score + ( (deckCount + handCount + dicardCount) / 10 ); };
+
 			G.discard[testPlayer][n] = currentCard;
 		}
 
 		//Check function
-		results = fullDeckCount(testPlayer, matchCard, &G);
+		results = scoreFor(testPlayer, &G);
 
-		if(results == matchCount) {
-			//printf("Test %d : %d matches %d \n", i, results, matchCount);
+		if(results == score) {
+			//printf("Test %d : %d matches %d \n", i, results, score);
 			sucessfulTests++;
 		} else {
-			//printf("Test %d : %d does not match %d \n", i, results, matchCount);
+			//printf("Test %d : %d does not match %d \n", i, results, score);
 		}
 
 		//printf("Conducted %d : %d does not match %d \n", i, results, matchCount);
 
-
 	}
 
-	printf("Conducted %d Tests. %d returned the number of cards that were expected.", i, sucessfulTests);
-
+	
+	printf("Conducted %d Tests. %d returned the correct score.", i, sucessfulTests);
 	
 	 printf("\n >>>>> Testing complete %s <<<<<\n\n", TESTFUNCTION);
 	
