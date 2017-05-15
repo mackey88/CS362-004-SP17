@@ -15,7 +15,7 @@ int main() {
     int seed = 1000;     
     int numPlayers = 2;
     int testPlayer = 0;    
-    int tests = 2;
+    int tests = 100;
 	int i;
 	int sucessfulTests = 0;
 	int handPosition = 1;

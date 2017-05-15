@@ -16,9 +16,8 @@ int main() {
     int numPlayers = 2;
     int testPlayer = 1;    
     //int results;
-    int tests = 100000;
+    int tests = 10000;
     int matchCount;
-	int matchCard;
 	int currentCard;
 	int i, j, m, n;
 	int deckCount;
@@ -26,6 +25,8 @@ int main() {
 	int dicardCount;
 	int sucessfulTests = 0;
 	int score;
+	int totalCards;
+	int sumOfCards;
 
     //Set up 2 game states
 	struct gameState G;
@@ -58,13 +59,14 @@ int main() {
 
 		score = 0;
 		
-		//Set card to check for
-		matchCard = (rand() % 27);
 
 		//Set counts for testing
 		deckCount = (rand() % 500);
 		handCount = (rand() % 500);
 		dicardCount = (rand() % 500);
+
+		totalCards = deckCount + handCount + dicardCount;
+
 
 		//Set counts in game state
 		G.deckCount[testPlayer] = deckCount;
@@ -90,16 +92,22 @@ int main() {
 			G.discard[testPlayer][n] = currentCard;
 		}
 
+		G.whoseTurn = testPlayer;
+
 		playAdventurer(&G);
+
+		sumOfCards = G.deckCount[testPlayer] + G.handCount[testPlayer] + G.discardCount[testPlayer];
+
+		//printf("Starting Cards:%d . Ending Cards: %d \n", totalCards, sumOfCards);
 		//Check function
 		//results = scoreFor(testPlayer, &G);
 
-		/*if(results == score) {
+		if(sumOfCards == totalCards) {
 			//printf("Test %d : %d matches %d \n", i, results, score);
 			sucessfulTests++;
 		} else {
 			//printf("Test %d : %d does not match %d \n", i, results, score);
-		} */
+		} 
 
 		//printf("Conducted %d : %d does not match %d \n", i, results, matchCount);
 
