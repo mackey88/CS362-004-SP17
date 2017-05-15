@@ -81,6 +81,7 @@ struct gameState {
 int playGreat_hall(int handPos, struct gameState *state);
 int playVillage(int handPos, struct gameState *state);
 int playSmithy(int handPos, struct gameState *state);
+int playAdventurer(struct gameState *state);
 
 struct gameState* newGame();
 
