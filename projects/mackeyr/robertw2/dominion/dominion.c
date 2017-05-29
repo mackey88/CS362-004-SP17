@@ -579,7 +579,7 @@ int drawCard(int player, struct gameState *state)
 
   return 0;
 }
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Play the smithy card, taking in parameters from original switch statement
 // BUG: loop starts at 1 and only draws 2 cards
 int smithyCard(struct gameState *state, int currentPlayer, int handPos){
